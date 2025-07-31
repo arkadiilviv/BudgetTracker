@@ -40,8 +40,9 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private ViewModelBase _currentViewModel;
 
-		private readonly HomePageViewModel _homeViewModel = new HomePageViewModel();
-		private readonly SettingsPageViewModel _settingsViewModel = new SettingsPageViewModel();
+		private readonly HomePageViewModel _homeViewModel;
+		private readonly SettingsPageViewModel _settingsViewModel;
+		private readonly GuidePageViewModel _guideViewModel;
 
 
 		[RelayCommand]
@@ -60,9 +61,12 @@ namespace BudgetTracker.ViewModels
 			CurrentViewModel = _settingsViewModel;
 		}
 
-		public MainWindowViewModel()
+		public MainWindowViewModel(HomePageViewModel homePageViewModel, SettingsPageViewModel settingsPageViewModel, GuidePageViewModel guideViewModel)
 		{
-			CurrentViewModel = _homeViewModel;
+			_homeViewModel = homePageViewModel;
+			_settingsViewModel = settingsPageViewModel;
+			_guideViewModel = guideViewModel;
+			CurrentViewModel = _guideViewModel;
 		}
 
 	}

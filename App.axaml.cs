@@ -10,6 +10,7 @@ using Avalonia.Themes.Simple;
 using Classic.Avalonia.Theme;
 using BudgetTracker.Helpers;
 using Avalonia.Styling;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BudgetTracker
 {
@@ -44,6 +45,15 @@ namespace BudgetTracker
 
 		public override void OnFrameworkInitializationCompleted()
 		{
+			var collection = new ServiceCollection();
+			collection.AddSingleton<MainWindowViewModel>();
+			collection.AddSingleton<HomePageViewModel>();
+			collection.AddSingleton<SettingsPageViewModel>();
+			collection.AddSingleton<GuidePageViewModel>();
+			collection.AddDbContext<BudgetContext>();
+
+			var provider = collection.BuildServiceProvider();
+
 			if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 			{
 				// Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
@@ -51,7 +61,7 @@ namespace BudgetTracker
 				DisableAvaloniaDataAnnotationValidation();
 				desktop.MainWindow = new MainWindow
 				{
-					DataContext = new MainWindowViewModel(),
+					DataContext = provider.GetRequiredService<MainWindowViewModel>()
 				};
 			}
 

@@ -12,8 +12,9 @@ namespace BudgetTracker.ViewModels
 {
 	public partial class SettingsPageViewModel : ViewModelBase
 	{
+		private BudgetContext _context;
 		[ObservableProperty]
-		private string[] _themes = new string[] {"Fluent","Classic", "Simple"};
+		private string[] _themes = new string[] { "Fluent", "Classic", "Simple" };
 		[ObservableProperty]
 		private string _selectedTheme = SettingsHelper.DefaultTheme;
 		[RelayCommand]
@@ -27,6 +28,11 @@ namespace BudgetTracker.ViewModels
 		public void SetDefaultTheme()
 		{
 			SelectedTheme = "Fluent";
+		}
+
+		public SettingsPageViewModel(BudgetContext context)
+		{
+			_context = context;
 		}
 	}
 }
