@@ -6,5 +6,29 @@
              x:Class="BudgetTracker.Views.SettingsPageView"
 						 xmlns:vm="using:BudgetTracker.ViewModels"
 						 x:DataType="vm:SettingsPageViewModel">
-	<Button Command="{Binding ToggleTheme}" Content="ToggleTheme"/>
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:SettingsPageViewModel/>
+	</Design.DataContext>
+	<Grid ColumnDefinitions="*, *">
+		<StackPanel Orientation="Vertical" Grid.Column="0" Spacing="10">
+			<Label Content="Themes" HorizontalAlignment="Center"/>
+			<ComboBox HorizontalAlignment="Stretch"
+								ItemsSource="{Binding Themes}"
+								SelectedItem="{Binding SelectedTheme}"/>
+			<Grid ColumnDefinitions="*, *">
+				<Button Content="Apply &amp; Restart" 
+								HorizontalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								Grid.Column="0"
+								Command="{Binding SetTheme}"/>
+				<Button Content="Set Default" 
+								HorizontalAlignment="Stretch"
+								HorizontalContentAlignment="Center"
+								Grid.Column="1"
+								Command="{Binding SetDefaultTheme}"/>
+			</Grid>
+		</StackPanel>
+	</Grid>
 </UserControl>

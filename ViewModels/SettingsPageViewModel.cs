@@ -1,4 +1,5 @@
-﻿using BudgetTracker.Models;
+﻿using BudgetTracker.Helpers;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,21 @@ namespace BudgetTracker.ViewModels
 {
 	public partial class SettingsPageViewModel : ViewModelBase
 	{
+		[ObservableProperty]
+		private string[] _themes = new string[] {"Fluent","Classic", "Simple"};
+		[ObservableProperty]
+		private string _selectedTheme = SettingsHelper.DefaultTheme;
 		[RelayCommand]
-		public void ToggleTheme()
+		public void SetTheme()
 		{
-			SettingsHelper.ToggleTheme();
+			SettingsHelper.SetTheme(_selectedTheme);
 			Process.Start(Environment.ProcessPath!);
 			Environment.Exit(0);
+		}
+		[RelayCommand]
+		public void SetDefaultTheme()
+		{
+			SelectedTheme = "Fluent";
 		}
 	}
 }

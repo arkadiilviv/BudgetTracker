@@ -1,12 +1,15 @@
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using BudgetTracker.Models;
 using BudgetTracker.ViewModels;
 using BudgetTracker.Views;
+using Avalonia.Themes.Fluent;
+using Avalonia.Themes.Simple;
+using Classic.Avalonia.Theme;
+using BudgetTracker.Helpers;
+using Avalonia.Styling;
 
 namespace BudgetTracker
 {
@@ -16,12 +19,26 @@ namespace BudgetTracker
 		{
 			AvaloniaXamlLoader.Load(this);
 			CustomSettings.Initialize();
-			if (SettingsHelper.DefaultTheme == "Fluent")
+			InitializeTheme();
+		}
+
+		private static void InitializeTheme()
+		{
+			switch (SettingsHelper.DefaultTheme)
 			{
-				Current!.Styles.Add(new Avalonia.Themes.Fluent.FluentTheme());
-			} else if (SettingsHelper.DefaultTheme == "Simple")
-			{
-				Current!.Styles.Add(new Avalonia.Themes.Simple.SimpleTheme());
+				case "Fluent":
+				Current!.Styles.Add(new FluentTheme());
+				break;
+				case "Simple":
+				Current!.Styles.Add(new SimpleTheme());
+				break;
+				case "Classic":
+				Current!.Styles.Add(new ClassicTheme());
+				Current!.RequestedThemeVariant = ThemeVariant.Light;
+				break;
+				default:
+				Current!.Styles.Add(new FluentTheme());
+				break;
 			}
 		}
 

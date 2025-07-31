@@ -7,28 +7,21 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace BudgetTracker.Models
+namespace BudgetTracker.Helpers
 {
 	public static class SettingsHelper
 	{
 		public static string DefaultTheme { get; set; }
 		public static string DefaultCurrency { get; set; }
 		public static string DefaultLanguage { get; set; }
-		public static void ToggleTheme()
+		public static void SetTheme(string theme)
 		{
 			var settings = new CustomSettings
 			{
-				DefaultTheme = DefaultTheme,
+				DefaultTheme = theme,
 				DefaultCurrency = DefaultCurrency,
 				DefaultLanguage = DefaultLanguage
 			};
-			if (settings.DefaultTheme == "Fluent")
-			{
-				settings.DefaultTheme = "Simple";
-			} else
-			{
-				settings.DefaultTheme = "Fluent";
-			}
 			string fileName = "CustomSettings.json";
 			using FileStream fileStream = File.Open(fileName, FileMode.Truncate);
 			JsonSerializer.Serialize(fileStream, settings);
