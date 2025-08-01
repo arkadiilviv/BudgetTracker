@@ -6,59 +6,63 @@
              x:Class="BudgetTracker.Views.HomePageView"
 						 x:DataType="vm:HomePageViewModel"
 						 xmlns:vm="using:BudgetTracker.ViewModels"
+						 xmlns:uc="using:BudgetTracker.Controls"
 						 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:HomePageViewModel/>
 	</Design.DataContext>
-	<Grid ColumnDefinitions="*, *" RowDefinitions="Auto, *">
-		<StackPanel Grid.Column="0"
-						Grid.ColumnSpan="10"
-						Grid.Row="0"
-						Orientation="Horizontal">
-		</StackPanel>
-		<Border Padding="10" Grid.Row="1">
-			<ScrollViewer>
-				<StackPanel Orientation="Vertical">
-					<NumericUpDown Value="{Binding InputCount}"/>
-					<TextBox Text="{Binding InputText}"/>
-					<ComboBox HorizontalAlignment="Stretch"
-										ItemsSource="{Binding Categories}"
-										SelectedItem="{Binding SelectedCatgory}"/>
-					<Button Content="Add Transaction" Command="{Binding AddTransactionCommand}"/>
-					<ListBox ItemsSource="{Binding Series}">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<Border Padding="4">
-									<StackPanel Orientation="Horizontal">
-										<TextBlock Text="{Binding Name}"/>
-										<TextBlock Text=":TransactionCount:"/>
-										<TextBlock Text="{Binding TransactionCount}"/>
-									</StackPanel>
-								</Border>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-					<ListBox ItemsSource="{Binding Categories}">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<Border Padding="5">
-									<Grid ColumnDefinitions="*, *, *">
-										<TextBlock Text="{Binding Name}" Grid.Column="0"/>
-										<ColorPicker Color="{Binding Color}" Grid.Column="2"/>
-									</Grid>
-								</Border>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</StackPanel>
-			</ScrollViewer>
-		</Border>
-		<Grid RowDefinitions="Auto,Auto, *" Grid.Column="1" Grid.Row="1">
-			<Label FontSize="30" Content="Overview" Grid.Row="0" HorizontalContentAlignment="Center"/>
-			<DatePicker SelectedDate="{Binding SelectedDate}" Grid.Row="1" HorizontalAlignment="Center"/>
-			<lvc:PieChart Series="{Binding Series}" Grid.Row="2" Legend=""/>
+	<Grid>
+		<Grid ColumnDefinitions="*, *" RowDefinitions="Auto, *">
+			<StackPanel Grid.Column="0"
+							Grid.ColumnSpan="10"
+							Grid.Row="0"
+							Orientation="Horizontal">
+			</StackPanel>
+			<Border Padding="10" Grid.Row="1">
+				<ScrollViewer>
+					<StackPanel Orientation="Vertical">
+						<NumericUpDown Value="{Binding InputCount}"/>
+						<TextBox Text="{Binding InputText}"/>
+						<ComboBox HorizontalAlignment="Stretch"
+											ItemsSource="{Binding Categories}"
+											SelectedItem="{Binding SelectedCatgory}"/>
+						<Button Content="Add Transaction" Command="{Binding AddTransactionCommand}"/>
+						<ListBox ItemsSource="{Binding Series}">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<Border Padding="4">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{Binding Name}"/>
+											<TextBlock Text=":TransactionCount:"/>
+											<TextBlock Text="{Binding TransactionCount}"/>
+										</StackPanel>
+									</Border>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+						<ListBox ItemsSource="{Binding Categories}">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<Border Padding="5">
+										<Grid ColumnDefinitions="*, *, *">
+											<TextBlock Text="{Binding Name}" Grid.Column="0"/>
+											<ColorPicker Color="{Binding Color}" Grid.Column="2"/>
+										</Grid>
+									</Border>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</StackPanel>
+				</ScrollViewer>
+			</Border>
+			<Grid RowDefinitions="Auto,Auto, *" Grid.Column="1" Grid.Row="1">
+				<Label FontSize="30" Content="Overview" Grid.Row="0" HorizontalContentAlignment="Center"/>
+				<DatePicker SelectedDate="{Binding SelectedDate}" Grid.Row="1" HorizontalAlignment="Center"/>
+				<lvc:PieChart Series="{Binding Series}" Grid.Row="2" Legend=""/>
+			</Grid>
 		</Grid>
+		<uc:LoadingControl/>
 	</Grid>
 </UserControl>
