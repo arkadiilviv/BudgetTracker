@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="BudgetTracker.Views.GuidePageView"
 						 xmlns:vm="using:BudgetTracker.ViewModels"
+						 xmlns:vw="using:BudgetTracker"
 						 x:DataType="vm:GuidePageViewModel">
 	<UserControl.Styles>
 		<Style Selector="Grid TextBlock">
@@ -16,43 +17,47 @@
 			<Setter Property="ClipToBounds" Value="True"/>
 		</Style>
 	</UserControl.Styles>
-	<ScrollViewer VerticalScrollBarVisibility="Visible">
-		<StackPanel Orientation="Vertical" Spacing="15">
-			<Label Content="Getting Started!"
-						 HorizontalAlignment="Center"
-						 FontSize="30"/>
-			<Grid ColumnDefinitions="*, *">
-				<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-									 TextWrapping="Wrap"
-									 Grid.Column="0"/>
-				<Border Grid.Column="1">
-					<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
-				</Border>
-			</Grid>
-			<Grid ColumnDefinitions="*, *">
-				<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-									 TextWrapping="Wrap"
-									 Grid.Column="1"/>
-				<Border Grid.Column="0">
-					<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
-				</Border>
-			</Grid>
-			<Grid ColumnDefinitions="*, *">
-				<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-									 TextWrapping="Wrap"
-									 Grid.Column="0"/>
-				<Border Grid.Column="1">
-					<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
-				</Border>
-			</Grid>
-			<Grid ColumnDefinitions="*, *">
-				<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-									 TextWrapping="Wrap"
-									 Grid.Column="1"/>
-				<Border Grid.Column="0">
-					<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
-				</Border>
-			</Grid>
-		</StackPanel>
-	</ScrollViewer>
+	<Grid>
+		<ScrollViewer VerticalScrollBarVisibility="Visible">
+			<StackPanel Orientation="Vertical" Spacing="15">
+				<Label Content="Getting Started!"
+							 HorizontalAlignment="Center"
+							 FontSize="30"/>
+				<Grid ColumnDefinitions="*, *">
+					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
+										 TextWrapping="Wrap"
+										 Grid.Column="0"/>
+					<Border Grid.Column="1">
+						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
+					</Border>
+				</Grid>
+				<Grid ColumnDefinitions="*, *">
+					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
+										 TextWrapping="Wrap"
+										 Grid.Column="1"/>
+					<Border Grid.Column="0">
+						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
+					</Border>
+				</Grid>
+				<Grid ColumnDefinitions="*, *">
+					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
+										 TextWrapping="Wrap"
+										 Grid.Column="0"/>
+					<Border Grid.Column="1">
+						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
+					</Border>
+				</Grid>
+				<Grid ColumnDefinitions="*, *">
+					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
+										 TextWrapping="Wrap"
+										 Grid.Column="1"/>
+					<Border Grid.Column="0">
+						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
+					</Border>
+				</Grid>
+			</StackPanel>
+		</ScrollViewer>
+		<!--Custom loader-->
+		<!--<vw:LoadingControl/>-->
+	</Grid>
 </UserControl>
