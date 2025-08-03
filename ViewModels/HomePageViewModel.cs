@@ -16,6 +16,10 @@ namespace BudgetTracker.ViewModels
 	public partial class HomePageViewModel : ViewModelBase
 	{
 		[ObservableProperty]
+		private bool _isQuickSettingsVisible = false;
+		[ObservableProperty]
+		private bool _isBusy = false;
+		[ObservableProperty]
 		private Category _selectedCatgory = new Category();
 		[ObservableProperty]
 		private string _inputText = string.Empty;
@@ -39,6 +43,11 @@ namespace BudgetTracker.ViewModels
 			new Category { Id = 3, Name = "Entertainment", Icon = "\ue902", Color = Colors.Blue },
 			new Category { Id = 4, Name = "Utilities", Icon = "\ue903", Color = Colors.GreenYellow }
 		};
+		[RelayCommand]
+		public void ToggleQuickSettings()
+		{
+			IsQuickSettingsVisible = !IsQuickSettingsVisible;
+		}
 		[RelayCommand]
 		public void AddTransaction()
 		{

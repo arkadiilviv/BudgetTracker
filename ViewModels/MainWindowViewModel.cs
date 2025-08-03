@@ -60,7 +60,7 @@ namespace BudgetTracker.ViewModels
 		{
 			CurrentViewModel = _settingsViewModel;
 		}
-
+		public MainWindowViewModel() { }
 		public MainWindowViewModel(HomePageViewModel homePageViewModel, SettingsPageViewModel settingsPageViewModel, GuidePageViewModel guideViewModel)
 		{
 			_homeViewModel = homePageViewModel;

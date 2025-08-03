@@ -12,23 +12,54 @@
 		<vm:SettingsPageViewModel/>
 	</Design.DataContext>
 	<Grid ColumnDefinitions="*, *">
-		<StackPanel Orientation="Vertical" Grid.Column="0" Spacing="10">
-			<Label Content="Themes" HorizontalAlignment="Center"/>
-			<ComboBox HorizontalAlignment="Stretch"
-								ItemsSource="{Binding Themes}"
-								SelectedItem="{Binding SelectedTheme}"/>
-			<Grid ColumnDefinitions="*, *">
-				<Button Content="Apply &amp; Restart" 
-								HorizontalAlignment="Stretch"
-								HorizontalContentAlignment="Center"
-								Grid.Column="0"
-								Command="{Binding SetTheme}"/>
-				<Button Content="Set Default" 
-								HorizontalAlignment="Stretch"
-								HorizontalContentAlignment="Center"
-								Grid.Column="1"
-								Command="{Binding SetDefaultTheme}"/>
-			</Grid>
-		</StackPanel>
+		<Border Grid.Column="0" Padding="5">
+			<StackPanel Orientation="Vertical" Spacing="10">
+				<Label Content="Themes"
+							 HorizontalAlignment="Center"
+							 FontSize="20"/>
+				<ComboBox HorizontalAlignment="Stretch"
+									ItemsSource="{Binding Themes}"
+									SelectedItem="{Binding SelectedTheme}"/>
+				<Grid ColumnDefinitions="*, *">
+					<Button Content="Apply &amp; Restart"
+									HorizontalAlignment="Stretch"
+									HorizontalContentAlignment="Center"
+									Grid.Column="0"
+									Command="{Binding SetTheme}"/>
+					<Button Content="Set Default"
+									HorizontalAlignment="Stretch"
+									HorizontalContentAlignment="Center"
+									Grid.Column="1"
+									Command="{Binding SetDefaultTheme}"/>
+				</Grid>
+			</StackPanel>
+		</Border>
+		<Border Grid.Column="1" Padding="5">
+			<ScrollViewer>
+				<StackPanel>
+					<Label Content="Categories"
+								 HorizontalAlignment="Center"
+								 FontSize="20"/>
+					<Button HorizontalAlignment="Stretch"
+									HorizontalContentAlignment="Center"
+									Content="Add Category"
+									Command="{Binding AddNewCategoryCommand}"/>
+					<ListBox ItemsSource="{Binding Categories}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<Border Padding="5">
+									<Grid ColumnDefinitions="*, *, *">
+										<TextBox Text="{Binding Name}"
+														 Watermark="Category Name"
+														 Grid.Column="0"/>
+										<ColorPicker Color="{Binding Color}" Grid.Column="2"/>
+									</Grid>
+								</Border>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</StackPanel>
+			</ScrollViewer>
+		</Border>
 	</Grid>
 </UserControl>

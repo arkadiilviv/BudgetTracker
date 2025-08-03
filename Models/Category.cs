@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Avalonia.Controls;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Linq;
 
 namespace BudgetTracker.Models
 {
@@ -23,5 +25,21 @@ namespace BudgetTracker.Models
 			}
 		}
 		public override string ToString() => Name;
+
+		public Category() { }
+		public Category(int id, string name, string? icon = null, uint colorCode = 0)
+		{
+			Id = id;
+			Name = name;
+			Icon = icon;
+			ColorCode = colorCode;
+		}
+		public Category(Category category)
+		{
+			Id = category.Id;
+			Name = category.Name;
+			Icon = category.Icon;
+			ColorCode = category.ColorCode;
+		}
 	}
 }
