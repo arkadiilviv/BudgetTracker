@@ -5,7 +5,7 @@
 namespace BudgetTracker.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class CategoryTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,9 +16,9 @@ namespace BudgetTracker.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
                     Icon = table.Column<string>(type: "TEXT", nullable: true),
-                    ColorCode = table.Column<uint>(type: "INTEGER", nullable: false)
+                    ColorCode = table.Column<uint>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -41,6 +41,7 @@
 							<TextBox Text="{Binding InputText}"/>
 							<ComboBox HorizontalAlignment="Stretch"
 												ItemsSource="{Binding Categories}"
+												DisplayMemberBinding="{Binding Name}"
 												SelectedItem="{Binding SelectedCatgory}"/>
 							<Button Content="Add Transaction" Command="{Binding AddTransactionCommand}"/>
 							<ListBox ItemsSource="{Binding Series}">
@@ -52,18 +53,6 @@
 												<TextBlock Text=":TransactionCount:"/>
 												<TextBlock Text="{Binding TransactionCount}"/>
 											</StackPanel>
-										</Border>
-									</DataTemplate>
-								</ListBox.ItemTemplate>
-							</ListBox>
-							<ListBox ItemsSource="{Binding Categories}">
-								<ListBox.ItemTemplate>
-									<DataTemplate>
-										<Border Padding="5">
-											<Grid ColumnDefinitions="*, *, *">
-												<TextBlock Text="{Binding Name}" Grid.Column="0"/>
-												<ColorPicker Color="{Binding Color}" Grid.Column="2"/>
-											</Grid>
 										</Border>
 									</DataTemplate>
 								</ListBox.ItemTemplate>

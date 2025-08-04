@@ -22,14 +22,13 @@ namespace BudgetTracker.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<uint>("ColorCode")
+                    b.Property<uint?>("ColorCode")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Icon")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

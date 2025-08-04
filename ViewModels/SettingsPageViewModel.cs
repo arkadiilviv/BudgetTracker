@@ -1,5 +1,6 @@
 ﻿using BudgetTracker.Helpers;
 using BudgetTracker.Models;
+using BudgetTracker.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -9,18 +10,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tmds.DBus.Protocol;
 
 namespace BudgetTracker.ViewModels
 {
 	public partial class SettingsPageViewModel : ViewModelBase
 	{
 		private BudgetContext _context;
+		private CategoryService _categoryService;
 		[ObservableProperty]
 		private string[] _themes = new string[] { "Fluent", "Classic", "Simple" };
 		[ObservableProperty]
 		private string _selectedTheme = SettingsHelper.DefaultTheme;
+		[ObservableProperty]
+		public ObservableCollection<CategoryViewModel> _categories;
 
-		public ObservableCollection<Category> Categories { get; set; }
 		[RelayCommand]
 		public void SetTheme()
 		{
@@ -34,25 +38,38 @@ namespace BudgetTracker.ViewModels
 			SelectedTheme = "Fluent";
 		}
 		[RelayCommand]
-		public void AddNewCategory()
+		public async Task AddCategory()
 		{
-			Categories.Add(new Category());
+			var category = new Category();
+			var categoryVm = new CategoryViewModel(_context, category);
+			Categories.Add(categoryVm);
+			await _categoryService.AddAsync(categoryVm);
+		}
+
+		[RelayCommand]
+		public async Task DeleteCategory(CategoryViewModel category)
+		{
+			Categories.Remove(category);
+			await _categoryService.DeleteCategory(category);
 		}
 		public SettingsPageViewModel()
 		{
-			//Dumb data for designer preview
-			Categories = new ObservableCollection<Category>
-			{
-				new Category { Id = 1, Name = "Food", Icon = "\ue900", ColorCode = 0xFFFF0000 },
-				new Category { Id = 2, Name = "Transport", Icon = "\ue901", ColorCode = 0xFF8A2BE2 },
-				new Category { Id = 3, Name = "Entertainment", Icon = "\ue902", ColorCode = 0xFF0000FF },
-				new Category { Id = 4, Name = "Utilities", Icon = "\ue903", ColorCode = 0xFFADFF2F }
+			_selectedTheme = "Fluent";
+			Categories = new ObservableCollection<CategoryViewModel>{
+				new CategoryViewModel
+				{
+					Name = "Default",
+					Icon = "fa-solid fa-circle",
+					ColorCode = 0xFF0000FF // Default color (blue)
+				}
 			};
+			// Do not use _categoryService or _context in this constructor
 		}
-		public SettingsPageViewModel(BudgetContext context)
+		public SettingsPageViewModel(BudgetContext context, CategoryService categoryService)
 		{
 			_context = context;
-			Categories = new ObservableCollection<Category>(context.Categories.ToList());
+			_categoryService = categoryService;
+			Categories = _categoryService.GetAll();
 		}
 	}
 }

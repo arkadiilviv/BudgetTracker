@@ -43,16 +43,21 @@
 					<Button HorizontalAlignment="Stretch"
 									HorizontalContentAlignment="Center"
 									Content="Add Category"
-									Command="{Binding AddNewCategoryCommand}"/>
+									Command="{Binding AddCategoryCommand}"/>
 					<ListBox ItemsSource="{Binding Categories}">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<Border Padding="5">
-									<Grid ColumnDefinitions="*, *, *">
+									<Grid ColumnDefinitions="*, *, *, auto">
 										<TextBox Text="{Binding Name}"
 														 Watermark="Category Name"
 														 Grid.Column="0"/>
 										<ColorPicker Color="{Binding Color}" Grid.Column="2"/>
+										<Button Grid.Column="3"
+														Content="X"
+														FontFamily="{StaticResource FontAwesome}"
+														Command="{Binding $parent[ListBox].DataContext.DeleteCategoryCommand}"
+														CommandParameter="{Binding .}"/>
 									</Grid>
 								</Border>
 							</DataTemplate>

@@ -1,8 +1,10 @@
 ﻿using Avalonia.Media;
 using BudgetTracker.Models;
+using BudgetTracker.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore.SkiaSharpView.Painting;
+using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -15,12 +17,14 @@ namespace BudgetTracker.ViewModels
 {
 	public partial class HomePageViewModel : ViewModelBase
 	{
+		private CategoryService _categoryService;
+		private BudgetContext _context;
 		[ObservableProperty]
 		private bool _isQuickSettingsVisible = false;
 		[ObservableProperty]
 		private bool _isBusy = false;
 		[ObservableProperty]
-		private Category _selectedCatgory = new Category();
+		private CategoryViewModel _selectedCatgory = new CategoryViewModel();
 		[ObservableProperty]
 		private string _inputText = string.Empty;
 		[ObservableProperty]
@@ -30,19 +34,11 @@ namespace BudgetTracker.ViewModels
 
 		[ObservableProperty]
 		private DateTimeOffset _selectedDate = new DateTimeOffset(DateTime.Now);
-
-
 		[ObservableProperty]
 		private ObservableCollection<CustomPieSeries<decimal>> _series = new ObservableCollection<CustomPieSeries<decimal>>();
 
-		[ObservableProperty]
-		private ObservableCollection<Category> _categories = new ObservableCollection<Category>
-		{
-			new Category { Id = 1, Name = "Food", Icon = "\ue900", Color = Colors.Red },
-			new Category { Id = 2, Name = "Transport", Icon = "\ue901", Color = Colors.Violet },
-			new Category { Id = 3, Name = "Entertainment", Icon = "\ue902", Color = Colors.Blue },
-			new Category { Id = 4, Name = "Utilities", Icon = "\ue903", Color = Colors.GreenYellow }
-		};
+		public ObservableCollection<CategoryViewModel> Categories { get => _categoryService.GetAll(); }
+
 		[RelayCommand]
 		public void ToggleQuickSettings()
 		{
@@ -60,7 +56,7 @@ namespace BudgetTracker.ViewModels
 				}
 			} else
 			{
-				var col = SelectedCatgory.Color;
+				Color col = SelectedCatgory.Color;
 				Series.Add(new CustomPieSeries<decimal>()
 				{
 					Name = _inputText,
@@ -70,5 +66,14 @@ namespace BudgetTracker.ViewModels
 			}
 		}
 
+		public HomePageViewModel()
+		{
+		}
+		public HomePageViewModel(BudgetContext context, CategoryService categoryService)
+		{
+			_context = context;
+			_categoryService = categoryService;
+			SelectedCatgory = Categories.FirstOrDefault();
+		}
 	}
 }
