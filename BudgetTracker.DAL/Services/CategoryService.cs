@@ -1,12 +1,5 @@
 ﻿using BudgetTracker.Models;
-using BudgetTracker.ViewModels;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace BudgetTracker.Services
 {
 	public class CategoryService
@@ -17,10 +10,9 @@ namespace BudgetTracker.Services
 			_context = context;
 		}
 
-		public ObservableCollection<CategoryViewModel> GetAll()
+		public IEnumerable<Category> GetAll()
 		{
-			var categories = _context.Categories.Select(cat => new CategoryViewModel(_context, cat));
-			return new ObservableCollection<CategoryViewModel>(categories);
+			return _context.Categories;
 		}
 
 		public async Task<Category> GetById(int id)
@@ -33,20 +25,26 @@ namespace BudgetTracker.Services
 			return category;
 		}
 
-		public async Task AddAsync(CategoryViewModel category)
+		public async Task AddAsync(Category category)
 		{
 			if (category == null)
 			{
 				throw new ArgumentNullException(nameof(category), "Category cannot be null.");
 			}
-			_context.Categories.Add(category.Model);
+			_context.Categories.Add(category);
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task DeleteCategory(CategoryViewModel category)
+		public async Task DeleteCategory(Category category)
 		{
-			_context.Categories.Remove(category.Model);
+			_context.Categories.Remove(category);
 			await _context.SaveChangesAsync();
+		}
+
+		public void UpdateModel(Category category)
+		{
+			_context.Entry(category).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+			_context.SaveChanges();
 		}
 	}
 }

@@ -41,16 +41,16 @@ namespace BudgetTracker.ViewModels
 		public async Task AddCategory()
 		{
 			var category = new Category();
-			var categoryVm = new CategoryViewModel(_context, category);
+			var categoryVm = new CategoryViewModel(category, _categoryService);
 			Categories.Add(categoryVm);
-			await _categoryService.AddAsync(categoryVm);
+			await _categoryService.AddAsync(category);
 		}
 
 		[RelayCommand]
 		public async Task DeleteCategory(CategoryViewModel category)
 		{
 			Categories.Remove(category);
-			await _categoryService.DeleteCategory(category);
+			await _categoryService.DeleteCategory(category.Model);
 		}
 		public SettingsPageViewModel()
 		{
@@ -69,7 +69,11 @@ namespace BudgetTracker.ViewModels
 		{
 			_context = context;
 			_categoryService = categoryService;
-			Categories = _categoryService.GetAll();
+			Categories = new ObservableCollection<CategoryViewModel>(
+				_categoryService
+					.GetAll()
+					.Select(cat => CategoryViewModel.FromModel(cat, _categoryService))
+			);
 		}
 	}
 }

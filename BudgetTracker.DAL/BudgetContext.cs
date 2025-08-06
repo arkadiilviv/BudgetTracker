@@ -1,9 +1,5 @@
-﻿using Avalonia;
-using BudgetTracker.Models;
+﻿using BudgetTracker.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.IO;
 
 
 namespace BudgetTracker

@@ -1,5 +1,6 @@
 ﻿using Avalonia.Controls;
 using BudgetTracker.Models;
+using BudgetTracker.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace BudgetTracker.ViewModels
 {
 	public partial class CategoryViewModel : ViewModelBase
 	{
-		private BudgetContext _context;
+		private CategoryService _categoryService;
 		public Category Model { get; }
 		[ObservableProperty]
 		private string _name;
@@ -38,7 +39,7 @@ namespace BudgetTracker.ViewModels
 			if (!Design.IsDesignMode)
 			{
 				Model.ColorCode = value;
-				_context.SaveChanges();
+				_categoryService.UpdateModel(Model);
 			}
 		}
 		partial void OnNameChanged(string value)
@@ -46,20 +47,25 @@ namespace BudgetTracker.ViewModels
 			if (!Design.IsDesignMode)
 			{
 				Model.Name = value;
-				_context.SaveChanges();
+				_categoryService.UpdateModel(Model);
 			}
 		}
 		public override string ToString() => Name;
 		public CategoryViewModel()
 		{
 		}
-		public CategoryViewModel(BudgetContext context, Category model)
+		public CategoryViewModel(Category model, CategoryService categoryService)
 		{
-			_context = context ?? throw new ArgumentNullException(nameof(context));
+			_categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
 			Model = model ?? throw new ArgumentNullException(nameof(model));
 			Name = model.Name;
 			Icon = model.Icon ?? string.Empty;
 			ColorCode = model.ColorCode ?? 0;
+		}
+
+		public static CategoryViewModel FromModel(Category category, CategoryService categoryService)
+		{
+			return new CategoryViewModel(category, categoryService);
 		}
 	}
 }

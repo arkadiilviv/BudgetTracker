@@ -7,17 +7,17 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BudgetTracker.Migrations
+namespace BudgetTracker.DAL.Migrations
 {
     [DbContext(typeof(BudgetContext))]
-    [Migration("20250803155323_CategoryTable")]
-    partial class CategoryTable
+    [Migration("20250806180147_Dal init")]
+    partial class Dalinit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.8");
 
             modelBuilder.Entity("BudgetTracker.Models.Category", b =>
                 {

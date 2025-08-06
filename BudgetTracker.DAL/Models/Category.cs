@@ -1,7 +1,4 @@
-﻿using Avalonia.Controls;
-using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BudgetTracker.Models
 {

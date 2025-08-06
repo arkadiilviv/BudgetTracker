@@ -24,7 +24,7 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private bool _isBusy = false;
 		[ObservableProperty]
-		private CategoryViewModel _selectedCatgory = new CategoryViewModel();
+		private Category _selectedCatgory = new Category();
 		[ObservableProperty]
 		private string _inputText = string.Empty;
 		[ObservableProperty]
@@ -37,7 +37,7 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private ObservableCollection<CustomPieSeries<decimal>> _series = new ObservableCollection<CustomPieSeries<decimal>>();
 
-		public ObservableCollection<CategoryViewModel> Categories { get => _categoryService.GetAll(); }
+		public ObservableCollection<Category> Categories { get => new ObservableCollection<Category>(_categoryService.GetAll()); }
 
 		[RelayCommand]
 		public void ToggleQuickSettings()
@@ -56,7 +56,7 @@ namespace BudgetTracker.ViewModels
 				}
 			} else
 			{
-				Color col = SelectedCatgory.Color;
+				Color col = Avalonia.Media.Color.FromUInt32(SelectedCatgory.ColorCode ?? 0);
 				Series.Add(new CustomPieSeries<decimal>()
 				{
 					Name = _inputText,
