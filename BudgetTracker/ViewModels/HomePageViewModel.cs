@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BudgetTracker.ViewModels
 {
@@ -17,24 +19,31 @@ namespace BudgetTracker.ViewModels
 		private ICategoryService _categoryService;
 		private ITransactionService _transactionService;
 		[ObservableProperty]
-		private bool _isQuickSettingsVisible = false;
+		private bool _isQuickSettingsVisible = true;
 		[ObservableProperty]
 		private bool _isBusy = false;
 		[ObservableProperty]
+		private bool _isPieChart = false;
+		[ObservableProperty]
 		private Category _selectedCatgory = new Category();
 		[ObservableProperty]
-		private string _inputText = string.Empty;
+		private string _inputTransactionNote = string.Empty;
 		[ObservableProperty]
-		private decimal _inputCount = 0;
+		private decimal _inputTransactionAmount = 0.01m;
 		[ObservableProperty]
-		private string _title = "Test";
+		private DateTimeOffset _inputTransactionDate = DateTime.Today;
+		[ObservableProperty]
+		private DateTimeOffset _startDate = DateTime.Today.AddDays(-7);
+		[ObservableProperty]
+		private DateTimeOffset _endDate = DateTime.Today;
 
-		[ObservableProperty]
-		private DateTimeOffset _selectedDate = new DateTimeOffset(DateTime.Now);
 		[ObservableProperty]
 		private ObservableCollection<CustomPieSeries<decimal>> _series = new ObservableCollection<CustomPieSeries<decimal>>();
-
 		public ObservableCollection<Category> Categories { get => new ObservableCollection<Category>(_categoryService.GetAll()); }
+		public ObservableCollection<Transaction> Transactions
+		{
+			get => new ObservableCollection<Transaction>(_transactionService.GetAll(StartDate.Date, EndDate.Date));
+		}
 
 		[RelayCommand]
 		public void ToggleQuickSettings()
@@ -42,29 +51,37 @@ namespace BudgetTracker.ViewModels
 			IsQuickSettingsVisible = !IsQuickSettingsVisible;
 		}
 		[RelayCommand]
-		public void AddTransaction()
+		public void ChangeDateButton(string daysString)
 		{
-			var selectedSeries = Series.FirstOrDefault(s => s.Name == _inputText && s.Category.Name == SelectedCatgory.Name);
-			if (selectedSeries != null)
+			StartDate = DateTime.Today.AddDays(Convert.ToInt32(daysString));
+			EndDate = DateTime.Today;
+		}
+		[RelayCommand]
+		public async Task AddTransactionAsync()
+		{
+			IsBusy = true;
+			try
 			{
-				if (selectedSeries is CustomPieSeries<decimal> pieSeries)
+				var transaction = new Transaction
 				{
-					selectedSeries.SetValues(new List<decimal> { selectedSeries.Values.First() + _inputCount });
-				}
-			} else
+					Category = SelectedCatgory,
+					Amount = InputTransactionAmount,
+					Date = DateTime.Now
+				};
+			} finally
 			{
-				Color col = Avalonia.Media.Color.FromUInt32(SelectedCatgory.ColorCode ?? 0);
-				Series.Add(new CustomPieSeries<decimal>()
-				{
-					Name = _inputText,
-					Values = new List<Decimal> { _inputCount },
-					Fill = new SolidColorPaint(new SKColor(col.R, col.G, col.B, col.A))
-				});
+				IsBusy = false;
 			}
 		}
 
 		public HomePageViewModel()
 		{
+			//Dummy data for designer
+			SelectedCatgory = new Category
+			{
+				Name = "Uncategorized",
+				ColorCode = Avalonia.Media.Colors.Red.ToUInt32()
+			};
 		}
 		public HomePageViewModel(ICategoryService categoryService, ITransactionService transactionService)
 		{

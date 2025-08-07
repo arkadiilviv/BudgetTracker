@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BudgetTracker.ViewModels
@@ -15,6 +16,8 @@ namespace BudgetTracker.ViewModels
 	{
 		private BudgetContext _context;
 		private ICategoryService _categoryService;
+		[ObservableProperty]
+		private bool _isBusy = false;
 		[ObservableProperty]
 		private string[] _themes = new string[] { "Fluent", "Classic", "Simple" };
 		[ObservableProperty]
@@ -35,12 +38,19 @@ namespace BudgetTracker.ViewModels
 			SelectedTheme = "Fluent";
 		}
 		[RelayCommand]
-		public async Task AddCategory()
+		public async Task AddCategoryAsync()
 		{
-			var category = new Category();
-			var categoryVm = new CategoryViewModel(category, _categoryService);
-			Categories.Add(categoryVm);
-			await _categoryService.AddAsync(category);
+			IsBusy = true;
+			try
+			{
+				var category = new Category();
+				var categoryVm = new CategoryViewModel(category, _categoryService);
+				Categories.Add(categoryVm);
+				await _categoryService.AddAsync(category);
+			} finally
+			{
+				IsBusy = false;
+			}
 		}
 
 		[RelayCommand]

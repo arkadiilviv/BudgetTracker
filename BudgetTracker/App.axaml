@@ -15,5 +15,7 @@
 	</Application.Styles>
 	<Application.Resources>
 		<FontFamily x:Key="FontAwesome">avares://BudgetTracker/Assets/FontAwesome7.otf#Font Awesome 7 Free Solid</FontFamily>
+		<x:Double x:Key="DatePickerThemeMinWidth">150</x:Double>
+		<x:Double x:Key="DatePickerThemeMaxWidth">450</x:Double>
 	</Application.Resources>
 </Application>

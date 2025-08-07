@@ -5,66 +5,70 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="BudgetTracker.Views.SettingsPageView"
 						 xmlns:vm="using:BudgetTracker.ViewModels"
-						 x:DataType="vm:SettingsPageViewModel">
+						 x:DataType="vm:SettingsPageViewModel"
+						 xmlns:uc="using:BudgetTracker.Controls">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:SettingsPageViewModel/>
 	</Design.DataContext>
-	<Grid ColumnDefinitions="*, *">
-		<Border Grid.Column="0" Padding="5">
-			<StackPanel Orientation="Vertical" Spacing="10">
-				<Label Content="Themes"
-							 HorizontalAlignment="Center"
-							 FontSize="20"/>
-				<ComboBox HorizontalAlignment="Stretch"
-									ItemsSource="{Binding Themes}"
-									SelectedItem="{Binding SelectedTheme}"/>
-				<Grid ColumnDefinitions="*, *">
-					<Button Content="Apply &amp; Restart"
-									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Center"
-									Grid.Column="0"
-									Command="{Binding SetTheme}"/>
-					<Button Content="Set Default"
-									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Center"
-									Grid.Column="1"
-									Command="{Binding SetDefaultTheme}"/>
-				</Grid>
-			</StackPanel>
-		</Border>
-		<Border Grid.Column="1" Padding="5">
-			<ScrollViewer>
-				<StackPanel>
-					<Label Content="Categories"
+	<Grid>
+		<Grid ColumnDefinitions="*, *">
+			<Border Grid.Column="0" Padding="5">
+				<StackPanel Orientation="Vertical" Spacing="10">
+					<Label Content="Themes"
 								 HorizontalAlignment="Center"
 								 FontSize="20"/>
-					<Button HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Center"
-									Content="Add Category"
-									Command="{Binding AddCategoryCommand}"/>
-					<ListBox ItemsSource="{Binding Categories}">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<Border Padding="5">
-									<Grid ColumnDefinitions="*, *, *, auto">
-										<TextBox Text="{Binding Name}"
-														 Watermark="Category Name"
-														 Grid.Column="0"/>
-										<ColorPicker Color="{Binding Color}" Grid.Column="2"/>
-										<Button Grid.Column="3"
-														Content="X"
-														FontFamily="{StaticResource FontAwesome}"
-														Command="{Binding $parent[ListBox].DataContext.DeleteCategoryCommand}"
-														CommandParameter="{Binding .}"/>
-									</Grid>
-								</Border>
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
+					<ComboBox HorizontalAlignment="Stretch"
+										ItemsSource="{Binding Themes}"
+										SelectedItem="{Binding SelectedTheme}"/>
+					<Grid ColumnDefinitions="*, *">
+						<Button Content="Apply &amp; Restart"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Center"
+										Grid.Column="0"
+										Command="{Binding SetTheme}"/>
+						<Button Content="Set Default"
+										HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Center"
+										Grid.Column="1"
+										Command="{Binding SetDefaultTheme}"/>
+					</Grid>
 				</StackPanel>
-			</ScrollViewer>
-		</Border>
+			</Border>
+			<Border Grid.Column="1" Padding="5">
+				<ScrollViewer>
+					<StackPanel>
+						<Label Content="Categories"
+									 HorizontalAlignment="Center"
+									 FontSize="20"/>
+						<Button HorizontalAlignment="Stretch"
+										HorizontalContentAlignment="Center"
+										Content="Add Category"
+										Command="{Binding AddCategoryCommand}"/>
+						<ListBox ItemsSource="{Binding Categories}">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<Border Padding="5">
+										<Grid ColumnDefinitions="*, *, *, auto">
+											<TextBox Text="{Binding Name}"
+															 Watermark="Category Name"
+															 Grid.Column="0"/>
+											<ColorPicker Color="{Binding Color}" Grid.Column="2"/>
+											<Button Grid.Column="3"
+															Content="X"
+															FontFamily="{StaticResource FontAwesome}"
+															Command="{Binding $parent[ListBox].DataContext.DeleteCategoryCommand}"
+															CommandParameter="{Binding .}"/>
+										</Grid>
+									</Border>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</StackPanel>
+				</ScrollViewer>
+			</Border>
+		</Grid>
+		<uc:LoadingControl IsVisible="{Binding IsBusy}"/>
 	</Grid>
 </UserControl>
