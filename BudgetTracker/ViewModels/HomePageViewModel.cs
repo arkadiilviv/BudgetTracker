@@ -1,24 +1,21 @@
 ﻿using Avalonia.Media;
+using BudgetTracker.Interfaces;
 using BudgetTracker.Models;
-using BudgetTracker.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore.SkiaSharpView.Painting;
-using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BudgetTracker.ViewModels
 {
 	public partial class HomePageViewModel : ViewModelBase
 	{
-		private CategoryService _categoryService;
-		private BudgetContext _context;
+		private ICategoryService _categoryService;
+		private ITransactionService _transactionService;
 		[ObservableProperty]
 		private bool _isQuickSettingsVisible = false;
 		[ObservableProperty]
@@ -69,10 +66,10 @@ namespace BudgetTracker.ViewModels
 		public HomePageViewModel()
 		{
 		}
-		public HomePageViewModel(BudgetContext context, CategoryService categoryService)
+		public HomePageViewModel(ICategoryService categoryService, ITransactionService transactionService)
 		{
-			_context = context;
 			_categoryService = categoryService;
+			_transactionService = transactionService;
 			SelectedCatgory = Categories.FirstOrDefault();
 		}
 	}

@@ -1,8 +1,9 @@
-﻿using BudgetTracker.Models;
+﻿using BudgetTracker.Interfaces;
+using BudgetTracker.Models;
 
 namespace BudgetTracker.Services
 {
-	public class CategoryService
+	public class CategoryService : ICategoryService
 	{
 		private BudgetContext _context;
 		public CategoryService(BudgetContext context)
@@ -35,7 +36,7 @@ namespace BudgetTracker.Services
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task DeleteCategory(Category category)
+		public async Task Delete(Category category)
 		{
 			_context.Categories.Remove(category);
 			await _context.SaveChangesAsync();

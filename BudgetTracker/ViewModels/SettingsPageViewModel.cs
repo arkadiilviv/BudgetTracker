@@ -1,23 +1,20 @@
 ﻿using BudgetTracker.Helpers;
+using BudgetTracker.Interfaces;
 using BudgetTracker.Models;
-using BudgetTracker.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Tmds.DBus.Protocol;
 
 namespace BudgetTracker.ViewModels
 {
 	public partial class SettingsPageViewModel : ViewModelBase
 	{
 		private BudgetContext _context;
-		private CategoryService _categoryService;
+		private ICategoryService _categoryService;
 		[ObservableProperty]
 		private string[] _themes = new string[] { "Fluent", "Classic", "Simple" };
 		[ObservableProperty]
@@ -50,7 +47,7 @@ namespace BudgetTracker.ViewModels
 		public async Task DeleteCategory(CategoryViewModel category)
 		{
 			Categories.Remove(category);
-			await _categoryService.DeleteCategory(category.Model);
+			await _categoryService.Delete(category.Model);
 		}
 		public SettingsPageViewModel()
 		{
@@ -65,7 +62,7 @@ namespace BudgetTracker.ViewModels
 			};
 			// Do not use _categoryService or _context in this constructor
 		}
-		public SettingsPageViewModel(BudgetContext context, CategoryService categoryService)
+		public SettingsPageViewModel(BudgetContext context, ICategoryService categoryService)
 		{
 			_context = context;
 			_categoryService = categoryService;

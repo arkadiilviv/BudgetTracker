@@ -7,6 +7,7 @@ namespace BudgetTracker
 	public class BudgetContext : DbContext
 	{
 		public DbSet<Category> Categories { get; set; }
+		public DbSet<Transaction> Transactions { get; set; }
 		public string DbPath { get; }
 
 		public BudgetContext()

@@ -1,17 +1,19 @@
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using BudgetTracker.ViewModels;
-using BudgetTracker.Views;
+using Avalonia.Styling;
 using Avalonia.Themes.Fluent;
 using Avalonia.Themes.Simple;
-using Classic.Avalonia.Theme;
+using BudgetTracker.DAL.Services;
 using BudgetTracker.Helpers;
-using Avalonia.Styling;
-using Microsoft.Extensions.DependencyInjection;
+using BudgetTracker.Interfaces;
 using BudgetTracker.Services;
+using BudgetTracker.ViewModels;
+using BudgetTracker.Views;
+using Classic.Avalonia.Theme;
+using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace BudgetTracker
 {
@@ -72,7 +74,8 @@ namespace BudgetTracker
 			collection.AddSingleton<HomePageViewModel>();
 			collection.AddSingleton<SettingsPageViewModel>();
 			collection.AddSingleton<GuidePageViewModel>();
-			collection.AddSingleton<CategoryService>();
+			collection.AddSingleton<ICategoryService, CategoryService>();
+			collection.AddSingleton<ITransactionService, TransactionService>();
 		}
 
 		private void DisableAvaloniaDataAnnotationValidation()
