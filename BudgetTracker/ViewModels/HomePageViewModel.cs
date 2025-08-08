@@ -38,19 +38,11 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		[NotifyPropertyChangedFor(nameof(Transactions))]
 		private DateTimeOffset _endDate = DateTime.Today;
-
 		[ObservableProperty]
 		private ObservableCollection<CustomPieSeries<decimal>> _series = new ObservableCollection<CustomPieSeries<decimal>>();
 		public ObservableCollection<Category> Categories { get => new ObservableCollection<Category>(_categoryService.GetAll()); }
-		public ObservableCollection<Transaction> Transactions
-		{
-			get
-			{
-				var res = new ObservableCollection<Transaction>(_transactionService.GetAll(StartDate.Date, EndDate.Date));
-				return res;
-			}
-		}
-
+		public ObservableCollection<Transaction> Transactions { get; set; }
+		public ObservableCollection<Transaction> SelectedTransactions { get; set; } = new ObservableCollection<Transaction>();
 		[RelayCommand]
 		public void ToggleQuickSettings()
 		{
@@ -76,9 +68,50 @@ namespace BudgetTracker.ViewModels
 					Note = InputTransactionNote
 				};
 				await _transactionService.AddAsync(transaction);
+				Transactions.Add(transaction);
 			} finally
 			{
 				IsBusy = false;
+			}
+		}
+
+		[RelayCommand]
+		public async Task DeleteSelectedTransactionsAsync()
+		{
+			IsBusy = true;
+			try
+			{
+				if (SelectedTransactions != null && SelectedTransactions.Any())
+				{
+					foreach (var transaction in SelectedTransactions.ToList())
+					{
+						await _transactionService.Delete(transaction);
+						Transactions.Remove(transaction);
+					}
+
+				}
+			} finally
+			{
+				IsBusy = false;
+			}
+		}
+
+		partial void OnStartDateChanged(DateTimeOffset value)
+		{
+			RefreshTransactions();
+		}
+		partial void OnEndDateChanged(DateTimeOffset value)
+		{
+			RefreshTransactions();
+		}
+
+		public void RefreshTransactions()
+		{
+			Transactions.Clear();
+			var transactions = _transactionService.GetAll(StartDate.Date, EndDate.Date);
+			foreach (var transaction in transactions)
+			{
+				Transactions.Add(transaction);
 			}
 		}
 
@@ -96,6 +129,7 @@ namespace BudgetTracker.ViewModels
 			_categoryService = categoryService;
 			_transactionService = transactionService;
 			SelectedCatgory = Categories.FirstOrDefault();
+			Transactions = new ObservableCollection<Transaction>(_transactionService.GetAll(StartDate.Date, EndDate.Date));
 		}
 	}
 }

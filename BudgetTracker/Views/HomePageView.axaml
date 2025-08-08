@@ -124,28 +124,41 @@
 							<DatePicker SelectedDate="{Binding InputTransactionDate}"
 													HorizontalAlignment="Stretch"
 													Classes="Compact"/>
-							<Button Content="Add Transaction" Command="{Binding AddTransactionCommand}"/>
+							<Button Content="Add Transaction"
+											Command="{Binding AddTransactionCommand}"
+											HorizontalAlignment="Stretch"
+											HorizontalContentAlignment="Center"/>
 							<Expander HorizontalAlignment="Stretch"
 												HorizontalContentAlignment="Stretch">
 								<Expander.Header>
 									Transaction History
 								</Expander.Header>
-								<ListBox ItemsSource="{Binding Transactions}"
-												 SelectionMode="Multiple">
-									<ListBox.ItemTemplate>
-										<DataTemplate>
-											<Border Padding="4">
-												<StackPanel Orientation="Horizontal" 
-																		Spacing="10"
-																		TextElement.Foreground="{Binding Category.ColorCode, Converter={StaticResource ColorConvertor}}">
-													<TextBlock Text="{Binding Note}"/>
-													<TextBlock Text="{Binding Amount, Converter={StaticResource CurrencyConvertor}}"/>
-													<TextBlock Text="{Binding Date, StringFormat='{}{0:d}'}}"/>
-												</StackPanel>
-											</Border>
-										</DataTemplate>
-									</ListBox.ItemTemplate>
-								</ListBox>
+								<StackPanel Spacing="5">
+									<Button Content="Delete selected item(s)"
+													HorizontalAlignment="Stretch"
+													HorizontalContentAlignment="Center"
+													Command="{Binding DeleteSelectedTransactionsCommand}"/>
+									<ListBox ItemsSource="{Binding Transactions}"
+													 SelectionMode="Multiple"
+													 SelectedItems="{Binding SelectedTransactions}">
+										<ListBox.ItemTemplate>
+											<DataTemplate>
+												<Border Padding="4">
+													<Grid ColumnDefinitions="*,1.2*,*"
+																TextElement.Foreground="{Binding Category.ColorCode, Converter={StaticResource ColorConvertor}}">
+														<TextBlock Text="{Binding Date, StringFormat='{}{0:d}'}}"
+																			 Grid.Column="0"/>
+														<TextBlock Text="{Binding Note}"
+																			 Grid.Column="1"/>
+														<TextBlock Text="{Binding Amount, Converter={StaticResource CurrencyConvertor}}"
+																			 Grid.Column="2"
+																			 HorizontalAlignment="Right"/>
+													</Grid>
+												</Border>
+											</DataTemplate>
+										</ListBox.ItemTemplate>
+									</ListBox>
+								</StackPanel>
 							</Expander>
 						</StackPanel>
 					</ScrollViewer>

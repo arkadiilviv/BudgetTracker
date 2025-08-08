@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -7,8 +8,22 @@ namespace BudgetTracker.Helpers
 {
 	public static class SettingsHelper
 	{
+		public static readonly Currency[] Currencies =
+		{
+			new Currency { Name = "EUR", Symbol = '€' },
+			new Currency { Name = "USD", Symbol = '$' },
+			new Currency { Name = "GBP", Symbol = '£' },
+			new Currency { Name = "YEN", Symbol = '¥' }
+		};
 		public static string DefaultTheme { get; set; }
 		public static string DefaultCurrency { get; set; }
+		public static char DefaultCurrencySymbol
+		{
+			get
+			{
+				return Currencies.First(x => x.Name == DefaultCurrency).Symbol;
+			}
+		}
 		public static string DefaultLanguage { get; set; }
 		public static void SetTheme(string theme)
 		{
@@ -18,6 +33,23 @@ namespace BudgetTracker.Helpers
 				DefaultCurrency = DefaultCurrency,
 				DefaultLanguage = DefaultLanguage
 			};
+			WriteSettingsFile(settings);
+		}
+
+		public static void SetCurrency(Currency currency)
+		{
+			var settings = new CustomSettings
+			{
+				DefaultTheme = DefaultTheme,
+				DefaultCurrency = currency.Name,
+				DefaultLanguage = DefaultLanguage
+			};
+			DefaultCurrency = currency.Name;
+			WriteSettingsFile(settings);
+		}
+
+		private static void WriteSettingsFile(CustomSettings settings)
+		{
 			string fileName = "CustomSettings.json";
 			using FileStream fileStream = File.Open(fileName, FileMode.Truncate);
 			JsonSerializer.Serialize(fileStream, settings);
@@ -63,5 +95,15 @@ namespace BudgetTracker.Helpers
 		public string DefaultCurrency { get; set; }
 		[JsonInclude]
 		public string DefaultLanguage { get; set; }
+	}
+
+	public class Currency
+	{
+		public string Name { get; set; }
+		public char Symbol { get; set; }
+		public override string ToString()
+		{
+			return $"{Name}({Symbol})";
+		}
 	}
 }

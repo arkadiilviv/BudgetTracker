@@ -16,7 +16,7 @@
 		<Grid ColumnDefinitions="*, *">
 			<Border Grid.Column="0" Padding="5">
 				<StackPanel Orientation="Vertical" Spacing="10">
-					<Label Content="Themes"
+					<Label Content="General"
 								 HorizontalAlignment="Center"
 								 FontSize="20"/>
 					<ComboBox HorizontalAlignment="Stretch"
@@ -33,6 +33,18 @@
 										HorizontalContentAlignment="Center"
 										Grid.Column="1"
 										Command="{Binding SetDefaultTheme}"/>
+					</Grid>
+					<Grid ColumnDefinitions="*,*">
+						<StackPanel Grid.Column="0"
+												Orientation="Horizontal"
+												HorizontalAlignment="Center">
+							<Label Content="Currency: "/>
+							<ComboBox Grid.Column="1"
+												ItemsSource="{Binding Currencies}"
+												SelectedItem="{Binding SelectedCurrency}"/>
+						</StackPanel>
+
+						
 					</Grid>
 				</StackPanel>
 			</Border>

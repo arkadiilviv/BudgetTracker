@@ -15,7 +15,7 @@ namespace BudgetTracker.Helpers
 		{
 			if (value is decimal)
 			{
-				return $"{value}$";
+				return $"{value}{SettingsHelper.DefaultCurrencySymbol}";
 			}
 			return "0.00";
 		}

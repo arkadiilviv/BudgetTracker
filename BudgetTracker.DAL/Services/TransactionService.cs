@@ -12,9 +12,10 @@ namespace BudgetTracker.DAL.Services
 			await _context.SaveChangesAsync();
 		}
 
-		public Task Delete(Transaction item)
+		public async Task Delete(Transaction item)
 		{
-			throw new NotImplementedException();
+			_context.Remove(item);
+			await _context.SaveChangesAsync();
 		}
 
 		public IEnumerable<Transaction> GetAll()

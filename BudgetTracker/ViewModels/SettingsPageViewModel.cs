@@ -23,7 +23,16 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private string _selectedTheme = SettingsHelper.DefaultTheme;
 		[ObservableProperty]
+		private Currency[] _currencies = SettingsHelper.Currencies;
+		[ObservableProperty]
+		private Currency _selectedCurrency;
+		[ObservableProperty]
 		public ObservableCollection<CategoryViewModel> _categories;
+
+		partial void OnSelectedCurrencyChanged(Currency value)
+		{
+			SettingsHelper.SetCurrency(value);
+		}
 
 		[RelayCommand]
 		public void SetTheme()
@@ -62,6 +71,7 @@ namespace BudgetTracker.ViewModels
 		public SettingsPageViewModel()
 		{
 			_selectedTheme = "Fluent";
+			_selectedCurrency = Currencies.First(c => c.Name == SettingsHelper.DefaultCurrency);
 			Categories = new ObservableCollection<CategoryViewModel>{
 				new CategoryViewModel
 				{
@@ -76,6 +86,7 @@ namespace BudgetTracker.ViewModels
 		{
 			_context = context;
 			_categoryService = categoryService;
+			_selectedCurrency = Currencies.First(c => c.Name == SettingsHelper.DefaultCurrency);
 			Categories = new ObservableCollection<CategoryViewModel>(
 				_categoryService
 					.GetAll()
