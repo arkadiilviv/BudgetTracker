@@ -7,12 +7,17 @@
 						 x:DataType="vm:HomePageViewModel"
 						 xmlns:vm="using:BudgetTracker.ViewModels"
 						 xmlns:uc="using:BudgetTracker.Controls"
-						 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia">
+						 xmlns:lvc="using:LiveChartsCore.SkiaSharpView.Avalonia"
+						 xmlns:hlp="using:BudgetTracker.Helpers">
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:HomePageViewModel/>
 	</Design.DataContext>
+	<UserControl.Resources>
+		<hlp:ColorConvertor x:Key="ColorConvertor"/>
+		<hlp:CurrencyConvertor x:Key="CurrencyConvertor"/>
+	</UserControl.Resources>
 	<SplitView IsPaneOpen="{Binding IsQuickSettingsVisible}"
 						 PanePlacement="Right"
 						 DisplayMode="CompactOverlay"
@@ -120,20 +125,28 @@
 													HorizontalAlignment="Stretch"
 													Classes="Compact"/>
 							<Button Content="Add Transaction" Command="{Binding AddTransactionCommand}"/>
-
-							<ListBox ItemsSource="{Binding Series}">
-								<ListBox.ItemTemplate>
-									<DataTemplate>
-										<Border Padding="4">
-											<StackPanel Orientation="Horizontal">
-												<TextBlock Text="{Binding Name}"/>
-												<TextBlock Text=":TransactionCount:"/>
-												<TextBlock Text="{Binding TransactionCount}"/>
-											</StackPanel>
-										</Border>
-									</DataTemplate>
-								</ListBox.ItemTemplate>
-							</ListBox>
+							<Expander HorizontalAlignment="Stretch"
+												HorizontalContentAlignment="Stretch">
+								<Expander.Header>
+									Transaction History
+								</Expander.Header>
+								<ListBox ItemsSource="{Binding Transactions}"
+												 SelectionMode="Multiple">
+									<ListBox.ItemTemplate>
+										<DataTemplate>
+											<Border Padding="4">
+												<StackPanel Orientation="Horizontal" 
+																		Spacing="10"
+																		TextElement.Foreground="{Binding Category.ColorCode, Converter={StaticResource ColorConvertor}}">
+													<TextBlock Text="{Binding Note}"/>
+													<TextBlock Text="{Binding Amount, Converter={StaticResource CurrencyConvertor}}"/>
+													<TextBlock Text="{Binding Date, StringFormat='{}{0:d}'}}"/>
+												</StackPanel>
+											</Border>
+										</DataTemplate>
+									</ListBox.ItemTemplate>
+								</ListBox>
+							</Expander>
 						</StackPanel>
 					</ScrollViewer>
 				</Border>

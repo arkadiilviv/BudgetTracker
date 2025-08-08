@@ -6,12 +6,13 @@ namespace BudgetTracker.DAL.Services
 	public class TransactionService : ITransactionService
 	{
 		private readonly BudgetContext _context;
-		public Task AddAsync(Transaction category)
+		public async Task AddAsync(Transaction item)
 		{
-			throw new NotImplementedException();
+			await _context.AddAsync(item);
+			await _context.SaveChangesAsync();
 		}
 
-		public Task Delete(Transaction category)
+		public Task Delete(Transaction item)
 		{
 			throw new NotImplementedException();
 		}
@@ -24,7 +25,7 @@ namespace BudgetTracker.DAL.Services
 		public IEnumerable<Transaction> GetAll(DateTime startDate, DateTime endDate)
 		{
 			return _context.Transactions
-				.Where(t => t.Date >= startDate && t.Date <= endDate)
+				.Where(t => t.Date >= startDate.Date && t.Date <= endDate.Date.AddDays(1))
 				.OrderByDescending(t => t.Date);
 		}
 
@@ -33,7 +34,7 @@ namespace BudgetTracker.DAL.Services
 			throw new NotImplementedException();
 		}
 
-		public void UpdateModel(Transaction category)
+		public void UpdateModel(Transaction item)
 		{
 			throw new NotImplementedException();
 		}

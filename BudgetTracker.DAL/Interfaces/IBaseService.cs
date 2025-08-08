@@ -2,10 +2,10 @@
 {
 	public interface IBaseService<T>
 	{
-		Task AddAsync(T category);
-		Task Delete(T category);
+		Task AddAsync(T item);
+		Task Delete(T item);
 		IEnumerable<T> GetAll();
 		Task<T> GetById(int id);
-		void UpdateModel(T category);
+		void UpdateModel(T item);
 	}
 }

@@ -33,8 +33,10 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private DateTimeOffset _inputTransactionDate = DateTime.Today;
 		[ObservableProperty]
+		[NotifyPropertyChangedFor(nameof(Transactions))]
 		private DateTimeOffset _startDate = DateTime.Today.AddDays(-7);
 		[ObservableProperty]
+		[NotifyPropertyChangedFor(nameof(Transactions))]
 		private DateTimeOffset _endDate = DateTime.Today;
 
 		[ObservableProperty]
@@ -42,7 +44,11 @@ namespace BudgetTracker.ViewModels
 		public ObservableCollection<Category> Categories { get => new ObservableCollection<Category>(_categoryService.GetAll()); }
 		public ObservableCollection<Transaction> Transactions
 		{
-			get => new ObservableCollection<Transaction>(_transactionService.GetAll(StartDate.Date, EndDate.Date));
+			get
+			{
+				var res = new ObservableCollection<Transaction>(_transactionService.GetAll(StartDate.Date, EndDate.Date));
+				return res;
+			}
 		}
 
 		[RelayCommand]
@@ -66,8 +72,10 @@ namespace BudgetTracker.ViewModels
 				{
 					Category = SelectedCatgory,
 					Amount = InputTransactionAmount,
-					Date = DateTime.Now
+					Date = InputTransactionDate.DateTime,
+					Note = InputTransactionNote
 				};
+				await _transactionService.AddAsync(transaction);
 			} finally
 			{
 				IsBusy = false;
