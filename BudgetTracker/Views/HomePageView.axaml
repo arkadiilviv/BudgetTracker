@@ -18,164 +18,182 @@
 		<hlp:ColorConvertor x:Key="ColorConvertor"/>
 		<hlp:CurrencyConvertor x:Key="CurrencyConvertor"/>
 	</UserControl.Resources>
-	<SplitView IsPaneOpen="{Binding IsQuickSettingsVisible}"
-						 PanePlacement="Right"
-						 DisplayMode="CompactOverlay"
-						 OpenPaneLength="350"
-						 PaneClosed="SplitView_PaneClosed"
-						 PaneOpened="SplitView_PaneOpened">
-		<SplitView.Pane>
-			<Border Padding="5">
-				<StackPanel Spacing="10">
-					<Button Content="&#xf013;"
-									HorizontalAlignment="Stretch"
-									HorizontalContentAlignment="Center"
-									FontFamily="{StaticResource FontAwesome}"
-									Command="{Binding ToggleQuickSettingsCommand}"
-									Grid.Row="0"/>
-					<LayoutTransformControl IsVisible="{Binding !IsQuickSettingsVisible}">
-						<LayoutTransformControl.LayoutTransform>
-							<RotateTransform Angle="90"/>
-						</LayoutTransformControl.LayoutTransform>
-						<Label Content="Quick Settings"
-									 FontSize="20"
-									 FontWeight="SemiBold"
-									 VerticalContentAlignment="Center"/>
-					</LayoutTransformControl>
-					<StackPanel Orientation="Vertical"
-											IsVisible="{Binding IsQuickSettingsVisible}"
-											Spacing="5">
-						<Label Content="Diagram Settings"
-									 HorizontalAlignment="Center"/>
-						<Grid ColumnDefinitions="*,*,*">
-							<Button Content="Today"
-											Grid.Column="0"
-											HorizontalAlignment="Stretch"
-											HorizontalContentAlignment="Center"
-											CommandParameter="0"
-											Command="{Binding ChangeDateButtonCommand}"/>
-							<Button Content="Week"
-											Grid.Column="1"
-											HorizontalAlignment="Stretch"
-											HorizontalContentAlignment="Center"
-											CommandParameter="-7"
-											Command="{Binding ChangeDateButtonCommand}"/>
-							<Button Content="Month"
-											Grid.Column="2"
-											HorizontalAlignment="Stretch"
-											HorizontalContentAlignment="Center"
-											CommandParameter="-30"
-											Command="{Binding ChangeDateButtonCommand}"/>
-						</Grid>
-
-						<Expander HorizontalAlignment="Stretch"
-											HorizontalContentAlignment="Stretch">
-							<Expander.Header>
-								Manual Date
-							</Expander.Header>
-							<StackPanel>
-								<Label Content="Start Date: "/>
-								<DatePicker SelectedDate="{Binding StartDate}"
-														HorizontalAlignment="Stretch"/>
-								<Label Content="End Date: "/>
-								<DatePicker SelectedDate="{Binding EndDate}"
-														HorizontalAlignment="Stretch"/>
-							</StackPanel>
-						</Expander>
-
-						<Label Content="Diagram Type" HorizontalAlignment="Center"/>
-						<Grid ColumnDefinitions="*,*">
-							<ToggleButton Content="Pie Chart"
+	<Grid>
+		<TabControl>
+			<TabItem Header="Main">
+				<SplitView IsPaneOpen="{Binding IsQuickSettingsVisible}"
+							 PanePlacement="Right"
+							 DisplayMode="CompactOverlay"
+							 OpenPaneLength="350"
+							 PaneClosed="SplitView_PaneClosed"
+							 PaneOpened="SplitView_PaneOpened">
+					<SplitView.Pane>
+						<Border Padding="5">
+							<StackPanel Spacing="10">
+								<Button Content="&#xf013;"
+												HorizontalAlignment="Stretch"
+												HorizontalContentAlignment="Center"
+												FontFamily="{StaticResource FontAwesome}"
+												Command="{Binding ToggleQuickSettingsCommand}"
+												Grid.Row="0"/>
+								<LayoutTransformControl IsVisible="{Binding !IsQuickSettingsVisible}">
+									<LayoutTransformControl.LayoutTransform>
+										<RotateTransform Angle="90"/>
+									</LayoutTransformControl.LayoutTransform>
+									<Label Content="Quick Settings"
+												 FontSize="20"
+												 FontWeight="SemiBold"
+												 VerticalContentAlignment="Center"/>
+								</LayoutTransformControl>
+								<StackPanel Orientation="Vertical"
+														IsVisible="{Binding IsQuickSettingsVisible}"
+														Spacing="5">
+									<Label Content="Diagram Settings"
+												 HorizontalAlignment="Center"/>
+									<Grid ColumnDefinitions="*,*,*">
+										<Button Content="Today"
 														Grid.Column="0"
 														HorizontalAlignment="Stretch"
 														HorizontalContentAlignment="Center"
-														IsChecked="{Binding IsPieChart}"/>
-							<ToggleButton Content="Bar Chart"
+														CommandParameter="0"
+														Command="{Binding ChangeDateButtonCommand}"/>
+										<Button Content="Week"
 														Grid.Column="1"
 														HorizontalAlignment="Stretch"
 														HorizontalContentAlignment="Center"
-														IsChecked="{Binding !IsPieChart}"/>
-						</Grid>
-					</StackPanel>
-				</StackPanel>
-			</Border>
-		</SplitView.Pane>
-		<Grid>
-			<Grid ColumnDefinitions="1*, 2*" RowDefinitions="Auto, *">
-				<StackPanel Grid.Column="0"
-								Grid.ColumnSpan="10"
-								Grid.Row="0"
-								Orientation="Horizontal">
-				</StackPanel>
-				<Border Padding="10" Grid.Row="1">
-					<ScrollViewer>
-						<StackPanel Orientation="Vertical" Spacing="5">
-							<Label Content="Amount"/>
-							<NumericUpDown Value="{Binding InputTransactionAmount}"
-														 Minimum="0.01"
-														 ShowButtonSpinner="False"/>
-							<Label Content="Note"/>
-							<TextBox Text="{Binding InputTransactionNote}"
-											 Watermark="Note"/>
-							<Label Content="Category"/>
-							<ComboBox HorizontalAlignment="Stretch"
-												ItemsSource="{Binding Categories}"
-												DisplayMemberBinding="{Binding Name}"
-												SelectedItem="{Binding SelectedCatgory}"/>
-							<Label Content="Date"/>
-							<DatePicker SelectedDate="{Binding InputTransactionDate}"
-													HorizontalAlignment="Stretch"
-													Classes="Compact"/>
-							<Button Content="Add Transaction"
-											Command="{Binding AddTransactionCommand}"
-											HorizontalAlignment="Stretch"
-											HorizontalContentAlignment="Center"/>
-							<Expander HorizontalAlignment="Stretch"
-												HorizontalContentAlignment="Stretch">
-								<Expander.Header>
-									Transaction History
-								</Expander.Header>
-								<StackPanel Spacing="5">
-									<Button Content="Delete selected item(s)"
-													HorizontalAlignment="Stretch"
-													HorizontalContentAlignment="Center"
-													Command="{Binding DeleteSelectedTransactionsCommand}"/>
-									<ListBox ItemsSource="{Binding Transactions}"
-													 SelectionMode="Multiple"
-													 SelectedItems="{Binding SelectedTransactions}">
-										<ListBox.ItemTemplate>
-											<DataTemplate>
-												<Border Padding="4">
-													<Grid ColumnDefinitions="*,1.2*,*"
-																TextElement.Foreground="{Binding Category.ColorCode, Converter={StaticResource ColorConvertor}}">
-														<TextBlock Text="{Binding Date, StringFormat='{}{0:d}'}}"
-																			 Grid.Column="0"/>
-														<TextBlock Text="{Binding Note}"
-																			 Grid.Column="1"/>
-														<TextBlock Text="{Binding Amount, Converter={StaticResource CurrencyConvertor}}"
-																			 Grid.Column="2"
-																			 HorizontalAlignment="Right"/>
-													</Grid>
-												</Border>
-											</DataTemplate>
-										</ListBox.ItemTemplate>
-									</ListBox>
+														CommandParameter="-7"
+														Command="{Binding ChangeDateButtonCommand}"/>
+										<Button Content="Month"
+														Grid.Column="2"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"
+														CommandParameter="-30"
+														Command="{Binding ChangeDateButtonCommand}"/>
+									</Grid>
+
+									<Expander HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Stretch">
+										<Expander.Header>
+											Manual Date
+										</Expander.Header>
+										<StackPanel>
+											<Label Content="Start Date: "/>
+											<DatePicker SelectedDate="{Binding StartDate}"
+																	HorizontalAlignment="Stretch"/>
+											<Label Content="End Date: "/>
+											<DatePicker SelectedDate="{Binding EndDate}"
+																	HorizontalAlignment="Stretch"/>
+										</StackPanel>
+									</Expander>
+
+									<Label Content="Diagram Type" HorizontalAlignment="Center"/>
+									<Grid ColumnDefinitions="*,*">
+										<ToggleButton Content="Pie Chart"
+																	Grid.Column="0"
+																	HorizontalAlignment="Stretch"
+																	HorizontalContentAlignment="Center"
+																	IsChecked="{Binding IsPieChart}"/>
+										<ToggleButton Content="Bar Chart"
+																	Grid.Column="1"
+																	HorizontalAlignment="Stretch"
+																	HorizontalContentAlignment="Center"
+																	IsChecked="{Binding !IsPieChart}"/>
+									</Grid>
 								</StackPanel>
-							</Expander>
-						</StackPanel>
-					</ScrollViewer>
-				</Border>
-				<Grid RowDefinitions="Auto, *" Grid.Column="1" Grid.Row="1">
-					<Label FontSize="30" Content="Overview" Grid.Row="0" HorizontalContentAlignment="Center"/>
-					<lvc:PieChart Series="{Binding Series}"
-												IsVisible="{Binding IsPieChart}"
-												Grid.Row="1"/>
-					<lvc:CartesianChart Series="{Binding BarSeries}" 
-															IsVisible="{Binding !IsPieChart}"
+							</StackPanel>
+						</Border>
+					</SplitView.Pane>
+					<Grid>
+						<Grid ColumnDefinitions="1*, 2*" RowDefinitions="Auto, *">
+							<StackPanel Grid.Column="0"
+											Grid.ColumnSpan="10"
+											Grid.Row="0"
+											Orientation="Horizontal">
+							</StackPanel>
+							<Border Padding="10" Grid.Row="1">
+								<ScrollViewer>
+									<StackPanel Orientation="Vertical" Spacing="5">
+										<Label Content="Amount"/>
+										<NumericUpDown Value="{Binding InputTransactionAmount}"
+																	 Minimum="0.01"
+																	 ShowButtonSpinner="False"/>
+										<Label Content="Note"/>
+										<TextBox Text="{Binding InputTransactionNote}"
+														 Watermark="Note"/>
+										<Label Content="Category"/>
+										<ComboBox HorizontalAlignment="Stretch"
+															ItemsSource="{Binding Categories}"
+															DisplayMemberBinding="{Binding Name}"
+															SelectedItem="{Binding SelectedCatgory}"/>
+										<Label Content="Date"/>
+										<DatePicker SelectedDate="{Binding InputTransactionDate}"
+																HorizontalAlignment="Stretch"
+																Classes="Compact"/>
+										<Button Content="Add Transaction"
+														Command="{Binding AddTransactionCommand}"
+														HorizontalAlignment="Stretch"
+														HorizontalContentAlignment="Center"/>
+										<Expander HorizontalAlignment="Stretch"
+															HorizontalContentAlignment="Stretch">
+											<Expander.Header>
+												Transaction History
+											</Expander.Header>
+											<StackPanel Spacing="5">
+												<Button Content="Delete selected item(s)"
+																HorizontalAlignment="Stretch"
+																HorizontalContentAlignment="Center"
+																Command="{Binding DeleteSelectedTransactionsCommand}"/>
+												<ListBox ItemsSource="{Binding Transactions}"
+																 SelectionMode="Multiple"
+																 SelectedItems="{Binding SelectedTransactions}">
+													<ListBox.ItemTemplate>
+														<DataTemplate>
+															<Border Padding="4">
+																<Grid ColumnDefinitions="*,1.2*,*"
+																			TextElement.Foreground="{Binding Category.ColorCode, Converter={StaticResource ColorConvertor}}">
+																	<TextBlock Text="{Binding Date, StringFormat='{}{0:d}'}}"
+																						 Grid.Column="0"/>
+																	<TextBlock Text="{Binding Note}"
+																						 Grid.Column="1"/>
+																	<TextBlock Text="{Binding Amount, Converter={StaticResource CurrencyConvertor}}"
+																						 Grid.Column="2"
+																						 HorizontalAlignment="Right"/>
+																</Grid>
+															</Border>
+														</DataTemplate>
+													</ListBox.ItemTemplate>
+												</ListBox>
+											</StackPanel>
+										</Expander>
+									</StackPanel>
+								</ScrollViewer>
+							</Border>
+							<Grid RowDefinitions="Auto, *" Grid.Column="1" Grid.Row="1">
+								<Label FontSize="30" Content="Overview" Grid.Row="0" HorizontalContentAlignment="Center"/>
+								<lvc:PieChart Series="{Binding Series}"
+															IsVisible="{Binding IsPieChart}"
 															Grid.Row="1"/>
+								<lvc:CartesianChart Series="{Binding BarSeries}"
+																		IsVisible="{Binding !IsPieChart}"
+																		Grid.Row="1"/>
+							</Grid>
+						</Grid>
+					</Grid>
+				</SplitView>
+			</TabItem>
+			<TabItem Header="Data Table">
+				<Grid RowDefinitions="*, Auto" Margin="5">
+					<DataGrid ItemsSource="{Binding Transactions}"
+										AutoGenerateColumns="True"
+										IsReadOnly="True"
+										Grid.Row="0"/>
+					<Button Content="Export to csv"
+									Grid.Row="1"
+									HorizontalAlignment="Right"
+									Click="ExportButton_Clicked"/>
 				</Grid>
-			</Grid>
-			<uc:LoadingControl IsVisible="{Binding IsBusy}"/>
-		</Grid>
-	</SplitView>
+			</TabItem>
+		</TabControl>
+		<uc:LoadingControl IsVisible="{Binding IsBusy}"/>
+	</Grid>
 </UserControl>

@@ -1,4 +1,6 @@
-﻿using Avalonia.Media;
+﻿using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.Platform.Storage;
 using BudgetTracker.Interfaces;
 using BudgetTracker.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -21,7 +23,7 @@ namespace BudgetTracker.ViewModels
 		private ICategoryService _categoryService;
 		private ITransactionService _transactionService;
 		[ObservableProperty]
-		private bool _isQuickSettingsVisible = true;
+		private bool _isQuickSettingsVisible = false;
 		[ObservableProperty]
 		private bool _isBusy = false;
 		[ObservableProperty]
@@ -155,7 +157,6 @@ namespace BudgetTracker.ViewModels
 				IsBusy = false;
 			}
 		}
-
 		partial void OnStartDateChanged(DateTimeOffset value)
 		{
 			RefreshTransactions();
@@ -184,6 +185,22 @@ namespace BudgetTracker.ViewModels
 			{
 				Name = "Uncategorized",
 				ColorCode = Avalonia.Media.Colors.Red.ToUInt32()
+			};
+
+			Transactions = new ObservableCollection<Transaction>
+			{
+				new Transaction
+				{
+					Category = new Category()
+					{
+						Id = 1,
+						Name = "Sample Category",
+						ColorCode = Avalonia.Media.Colors.Blue.ToUInt32()
+					},
+					Amount = 100.00m,
+					Date = DateTime.Today,
+					Note = "Sample Transaction"
+				}
 			};
 		}
 		public HomePageViewModel(ICategoryService categoryService, ITransactionService transactionService)

@@ -12,6 +12,7 @@
 	<Application.Styles>
 		<FluentTheme/>
 		<StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml"/>
+		<StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml"/>
 	</Application.Styles>
 	<Application.Resources>
 		<FontFamily x:Key="FontAwesome">avares://BudgetTracker/Assets/FontAwesome7.otf#Font Awesome 7 Free Solid</FontFamily>
