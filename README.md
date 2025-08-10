@@ -42,6 +42,14 @@ dotnet build
 
 3. **Enjoy tracking your budget!** 🎉
 
+## 📷 Screenshots
+
+![Slide 1](https://github.com/arkadiilviv/BudgetTracker/blob/master/BudgetTracker/Assets/Guide/Slide1.png)
+
+![Slide 2](https://github.com/arkadiilviv/BudgetTracker/blob/master/BudgetTracker/Assets/Guide/Slide2.png)
+
+![Slide 3](https://github.com/arkadiilviv/BudgetTracker/blob/master/BudgetTracker/Assets/Guide/Slide3.png)
+
 ---
 
 ## 🧑‍💻 Contributing
