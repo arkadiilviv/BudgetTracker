@@ -21,7 +21,9 @@
 	<SplitView IsPaneOpen="{Binding IsQuickSettingsVisible}"
 						 PanePlacement="Right"
 						 DisplayMode="CompactOverlay"
-						 OpenPaneLength="350">
+						 OpenPaneLength="350"
+						 PaneClosed="SplitView_PaneClosed"
+						 PaneOpened="SplitView_PaneOpened">
 		<SplitView.Pane>
 			<Border Padding="5">
 				<StackPanel Spacing="10">
@@ -165,7 +167,12 @@
 				</Border>
 				<Grid RowDefinitions="Auto, *" Grid.Column="1" Grid.Row="1">
 					<Label FontSize="30" Content="Overview" Grid.Row="0" HorizontalContentAlignment="Center"/>
-					<lvc:PieChart Series="{Binding Series}" Grid.Row="1" Legend=""/>
+					<lvc:PieChart Series="{Binding Series}"
+												IsVisible="{Binding IsPieChart}"
+												Grid.Row="1"/>
+					<lvc:CartesianChart Series="{Binding BarSeries}" 
+															IsVisible="{Binding !IsPieChart}"
+															Grid.Row="1"/>
 				</Grid>
 			</Grid>
 			<uc:LoadingControl IsVisible="{Binding IsBusy}"/>

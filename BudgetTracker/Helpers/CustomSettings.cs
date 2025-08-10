@@ -16,6 +16,7 @@ namespace BudgetTracker.Helpers
 			new Currency { Name = "YEN", Symbol = '¥' }
 		};
 		public static string DefaultTheme { get; set; }
+		public static bool ShowGuide { get; set; }
 		public static string DefaultCurrency { get; set; }
 		public static char DefaultCurrencySymbol
 		{
@@ -31,7 +32,8 @@ namespace BudgetTracker.Helpers
 			{
 				DefaultTheme = theme,
 				DefaultCurrency = DefaultCurrency,
-				DefaultLanguage = DefaultLanguage
+				DefaultLanguage = DefaultLanguage,
+				ShowGuide = ShowGuide
 			};
 			WriteSettingsFile(settings);
 		}
@@ -42,10 +44,29 @@ namespace BudgetTracker.Helpers
 			{
 				DefaultTheme = DefaultTheme,
 				DefaultCurrency = currency.Name,
-				DefaultLanguage = DefaultLanguage
+				DefaultLanguage = DefaultLanguage,
+				ShowGuide = ShowGuide
 			};
 			DefaultCurrency = currency.Name;
 			WriteSettingsFile(settings);
+		}
+
+		public static void DisableGuide()
+		{
+			var settings = new CustomSettings
+			{
+				DefaultTheme = DefaultTheme,
+				DefaultCurrency = DefaultCurrency,
+				DefaultLanguage = DefaultLanguage,
+				ShowGuide = false
+			};
+			WriteSettingsFile(settings);
+		}
+
+		public static void ResetSettings()
+		{
+			string fileName = "CustomSettings.json";
+			CustomSettings.CreateSettings(fileName);
 		}
 
 		private static void WriteSettingsFile(CustomSettings settings)
@@ -68,29 +89,33 @@ namespace BudgetTracker.Helpers
 				SettingsHelper.DefaultTheme = settings?.DefaultTheme ?? "Fluent";
 				SettingsHelper.DefaultCurrency = settings?.DefaultCurrency ?? "EUR";
 				SettingsHelper.DefaultLanguage = settings?.DefaultLanguage ?? "en-US";
+				SettingsHelper.ShowGuide = settings?.ShowGuide ?? true;
 			} else
 			{
 				await CreateSettings(fileName);
 			}
 		}
-
-		private static async Task CreateSettings(string fileName)
+		public static async Task CreateSettings(string fileName)
 		{
 			var settings = new CustomSettings
 			{
 				DefaultTheme = "Fluent",
 				DefaultCurrency = "EUR",
-				DefaultLanguage = "en-US"
+				DefaultLanguage = "en-US",
+				ShowGuide = true
 			};
 			await using FileStream fileStream = File.Create(fileName);
 			await JsonSerializer.SerializeAsync(fileStream, settings);
 			SettingsHelper.DefaultTheme = settings?.DefaultTheme ?? "Fluent";
 			SettingsHelper.DefaultCurrency = settings?.DefaultCurrency ?? "EUR";
 			SettingsHelper.DefaultLanguage = settings?.DefaultLanguage ?? "en-US";
+			SettingsHelper.ShowGuide = settings.ShowGuide;
 		}
 
 		[JsonInclude]
 		public string DefaultTheme { get; set; }
+		[JsonInclude]
+		public bool ShowGuide { get; set; }
 		[JsonInclude]
 		public string DefaultCurrency { get; set; }
 		[JsonInclude]

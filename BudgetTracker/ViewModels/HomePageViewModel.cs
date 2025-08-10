@@ -3,6 +3,8 @@ using BudgetTracker.Interfaces;
 using BudgetTracker.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using System;
@@ -25,8 +27,6 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private bool _isPieChart = false;
 		[ObservableProperty]
-		private Category _selectedCatgory = new Category();
-		[ObservableProperty]
 		private string _inputTransactionNote = string.Empty;
 		[ObservableProperty]
 		private decimal _inputTransactionAmount = 0.01m;
@@ -34,13 +34,71 @@ namespace BudgetTracker.ViewModels
 		private DateTimeOffset _inputTransactionDate = DateTime.Today;
 		[ObservableProperty]
 		[NotifyPropertyChangedFor(nameof(Transactions))]
+		[NotifyPropertyChangedFor(nameof(Series))]
+		[NotifyPropertyChangedFor(nameof(BarSeries))]
 		private DateTimeOffset _startDate = DateTime.Today.AddDays(-7);
 		[ObservableProperty]
 		[NotifyPropertyChangedFor(nameof(Transactions))]
+		[NotifyPropertyChangedFor(nameof(Series))]
+		[NotifyPropertyChangedFor(nameof(BarSeries))]
 		private DateTimeOffset _endDate = DateTime.Today;
+		public ObservableCollection<CategoryViewModel> Categories
+		{
+			get
+			{
+				return new ObservableCollection<CategoryViewModel>(
+					_categoryService
+					.GetAll()
+					.Select(cat => CategoryViewModel.FromModel(cat, _categoryService))
+					);
+			}
+		}
 		[ObservableProperty]
-		private ObservableCollection<CustomPieSeries<decimal>> _series = new ObservableCollection<CustomPieSeries<decimal>>();
-		public ObservableCollection<Category> Categories { get => new ObservableCollection<Category>(_categoryService.GetAll()); }
+		private CategoryViewModel _selectedCatgory;
+		public ObservableCollection<ISeries> Series
+		{
+			get
+			{
+				var transactionSeries = new ObservableCollection<ISeries>();
+				foreach (var item in Categories)
+				{
+					IEnumerable<Transaction>? catTransactions = Transactions.Where(x => x.Category == item.Model);
+					transactionSeries.Add(new PieSeries<decimal>
+					{
+						Values = new List<decimal> { catTransactions.Sum(x => x.Amount) },
+						Name = item.Name,
+						Fill = new SolidColorPaint(SKColor.Parse(item.Color.ToString()))
+					});
+				}
+				return transactionSeries;
+			}
+			set
+			{
+				OnPropertyChanged(nameof(Series));
+			}
+		}
+		public ObservableCollection<ISeries> BarSeries
+		{
+			get
+			{
+				var transactionSeries = new ObservableCollection<ISeries>();
+				foreach (var item in Categories)
+				{
+					IEnumerable<Transaction>? catTransactions = Transactions.Where(x => x.Category == item.Model);
+					transactionSeries.Add(new ColumnSeries<decimal>
+					{
+						Values = new List<decimal> { catTransactions.Sum(x => x.Amount) },
+						Name = item.Name,
+						Fill = new SolidColorPaint(SKColor.Parse(item.Color.ToString()))
+					});
+				}
+				return transactionSeries;
+			}
+			set
+			{
+				OnPropertyChanged(nameof(BarSeries));
+			}
+		}
 		public ObservableCollection<Transaction> Transactions { get; set; }
 		public ObservableCollection<Transaction> SelectedTransactions { get; set; } = new ObservableCollection<Transaction>();
 		[RelayCommand]
@@ -62,7 +120,7 @@ namespace BudgetTracker.ViewModels
 			{
 				var transaction = new Transaction
 				{
-					Category = SelectedCatgory,
+					Category = SelectedCatgory.Model,
 					Amount = InputTransactionAmount,
 					Date = InputTransactionDate.DateTime,
 					Note = InputTransactionNote
@@ -71,6 +129,7 @@ namespace BudgetTracker.ViewModels
 				Transactions.Add(transaction);
 			} finally
 			{
+				RefreshTransactions();
 				IsBusy = false;
 			}
 		}
@@ -92,6 +151,7 @@ namespace BudgetTracker.ViewModels
 				}
 			} finally
 			{
+				RefreshTransactions();
 				IsBusy = false;
 			}
 		}
@@ -113,12 +173,14 @@ namespace BudgetTracker.ViewModels
 			{
 				Transactions.Add(transaction);
 			}
+			BarSeries = BarSeries; // Refresh bar series
+			Series = Series; // Refresh pie series
 		}
 
 		public HomePageViewModel()
 		{
 			//Dummy data for designer
-			SelectedCatgory = new Category
+			SelectedCatgory = new CategoryViewModel
 			{
 				Name = "Uncategorized",
 				ColorCode = Avalonia.Media.Colors.Red.ToUInt32()
@@ -128,8 +190,8 @@ namespace BudgetTracker.ViewModels
 		{
 			_categoryService = categoryService;
 			_transactionService = transactionService;
-			SelectedCatgory = Categories.FirstOrDefault();
 			Transactions = new ObservableCollection<Transaction>(_transactionService.GetAll(StartDate.Date, EndDate.Date));
+			SelectedCatgory = Categories.FirstOrDefault();
 		}
 	}
 }

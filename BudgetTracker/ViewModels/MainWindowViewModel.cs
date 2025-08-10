@@ -1,4 +1,5 @@
-﻿using BudgetTracker.Models;
+﻿using BudgetTracker.Helpers;
+using BudgetTracker.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore.SkiaSharpView;
@@ -59,7 +60,10 @@ namespace BudgetTracker.ViewModels
 			_homeViewModel = homePageViewModel;
 			_settingsViewModel = settingsPageViewModel;
 			_guideViewModel = guideViewModel;
-			CurrentViewModel = _guideViewModel;
+			if (SettingsHelper.ShowGuide)
+				CurrentViewModel = _guideViewModel;
+			else
+				CurrentViewModel = _homeViewModel;
 		}
 
 	}

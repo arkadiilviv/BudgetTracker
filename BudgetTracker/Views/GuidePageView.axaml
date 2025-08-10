@@ -10,6 +10,11 @@
 	<UserControl.Styles>
 		<Style Selector="Grid TextBlock">
 			<Setter Property="Padding" Value="5"/>
+			<Setter Property="FontSize" Value="20"/>
+			<Setter Property="TextWrapping" Value="Wrap"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="FontWeight" Value="SemiBold"/>
 		</Style>
 		<Style Selector="Grid Border">
 			<!--<Setter Property="Padding" Value="5"/>-->
@@ -22,37 +27,32 @@
 			<StackPanel Orientation="Vertical" Spacing="15">
 				<Label Content="Getting Started!"
 							 HorizontalAlignment="Center"
-							 FontSize="30"/>
+							 FontSize="30"
+							 FontWeight="Black"/>
+				<CheckBox VerticalAlignment="Center"
+									HorizontalAlignment="Center"
+									Checked="CheckBox_Checked">
+									Never show guide page.
+				</CheckBox>
 				<Grid ColumnDefinitions="*, *">
-					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-										 TextWrapping="Wrap"
+					<TextBlock Text="At settings tab add and configure your	preferred categories."
 										 Grid.Column="0"/>
 					<Border Grid.Column="1">
 						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
 					</Border>
 				</Grid>
 				<Grid ColumnDefinitions="*, *">
-					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-										 TextWrapping="Wrap"
+					<TextBlock Text="Use form to add transactions for selected date and category."
 										 Grid.Column="1"/>
 					<Border Grid.Column="0">
-						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
+						<Image Source="avares://BudgetTracker/Assets/Guide/Slide2.png"/>
 					</Border>
 				</Grid>
 				<Grid ColumnDefinitions="*, *">
-					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-										 TextWrapping="Wrap"
+					<TextBlock Text="Use quick setting to adjust data representation."
 										 Grid.Column="0"/>
 					<Border Grid.Column="1">
-						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
-					</Border>
-				</Grid>
-				<Grid ColumnDefinitions="*, *">
-					<TextBlock Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus posuere vel nisl a vehicula. In consequat sem ac tellus aliquam porttitor. Sed dictum augue vitae volutpat mattis. Aenean facilisis fringilla diam. Aliquam et purus eu orci pellentesque bibendum id a orci. Pellentesque eros enim, egestas sed elit in, viverra fermentum ligula. Vestibulum nisi nisi, dignissim vitae varius id, faucibus vel nibh. Praesent eu orci quis nulla euismod tempor."
-										 TextWrapping="Wrap"
-										 Grid.Column="1"/>
-					<Border Grid.Column="0">
-						<Image Source="avares://BudgetTracker/Assets/Guide/Slide1.png"/>
+						<Image Source="avares://BudgetTracker/Assets/Guide/Slide3.png"/>
 					</Border>
 				</Grid>
 			</StackPanel>

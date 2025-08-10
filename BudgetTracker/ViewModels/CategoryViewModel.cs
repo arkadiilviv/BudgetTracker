@@ -13,8 +13,6 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private string _name;
 		[ObservableProperty]
-		private string _icon;
-		[ObservableProperty]
 		private uint _colorCode;
 
 		public Avalonia.Media.Color Color
@@ -53,7 +51,6 @@ namespace BudgetTracker.ViewModels
 			_categoryService = categoryService ?? throw new ArgumentNullException(nameof(categoryService));
 			Model = model ?? throw new ArgumentNullException(nameof(model));
 			Name = model.Name;
-			Icon = model.Icon ?? string.Empty;
 			ColorCode = model.ColorCode ?? 0;
 		}
 

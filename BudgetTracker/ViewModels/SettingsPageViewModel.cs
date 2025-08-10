@@ -44,7 +44,7 @@ namespace BudgetTracker.ViewModels
 		[RelayCommand]
 		public void SetDefaultTheme()
 		{
-			SelectedTheme = "Fluent";
+			SettingsHelper.ResetSettings();
 		}
 		[RelayCommand]
 		public async Task AddCategoryAsync()
@@ -76,7 +76,6 @@ namespace BudgetTracker.ViewModels
 				new CategoryViewModel
 				{
 					Name = "Default",
-					Icon = "fa-solid fa-circle",
 					ColorCode = 0xFF0000FF // Default color (blue)
 				}
 			};
