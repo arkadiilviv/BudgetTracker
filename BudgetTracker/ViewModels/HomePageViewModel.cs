@@ -31,7 +31,7 @@ namespace BudgetTracker.ViewModels
 		[ObservableProperty]
 		private string _inputTransactionNote = string.Empty;
 		[ObservableProperty]
-		private decimal _inputTransactionAmount = 0.01m;
+		private decimal ?_inputTransactionAmount = 0.01m;
 		[ObservableProperty]
 		private DateTimeOffset _inputTransactionDate = DateTime.Today;
 		[ObservableProperty]
@@ -123,7 +123,7 @@ namespace BudgetTracker.ViewModels
 				var transaction = new Transaction
 				{
 					Category = SelectedCatgory.Model,
-					Amount = InputTransactionAmount,
+					Amount = InputTransactionAmount.GetValueOrDefault(),
 					Date = InputTransactionDate.DateTime,
 					Note = InputTransactionNote
 				};

@@ -55,6 +55,13 @@
 						<Image Source="avares://BudgetTracker/Assets/Guide/Slide3.png"/>
 					</Border>
 				</Grid>
+				<Grid ColumnDefinitions="*, *">
+					<Border Grid.Column="0">
+						<Image Source="avares://BudgetTracker/Assets/Guide/Slide4.png"/>
+					</Border>
+					<TextBlock Text="Export data to CSV format."
+										 Grid.Column="1"/>
+				</Grid>
 			</StackPanel>
 		</ScrollViewer>
 		<!--Custom loader-->

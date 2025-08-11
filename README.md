@@ -50,6 +50,8 @@ dotnet build
 
 ![Slide 3](https://github.com/arkadiilviv/BudgetTracker/blob/master/BudgetTracker/Assets/Guide/Slide3.png)
 
+![Slide 4](https://github.com/arkadiilviv/BudgetTracker/blob/master/BudgetTracker/Assets/Guide/Slide4.png)
+
 ---
 
 ## 🧑‍💻 Contributing
