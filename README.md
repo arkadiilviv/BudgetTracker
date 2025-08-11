@@ -10,7 +10,6 @@ Track your expenses, visualize your spending, and take control of your budget wi
 - 📊 **Interactive Charts**: Visualize your spending by category.
 - 🏷️ **Categories**: Organize transactions for Food, Transport, Entertainment, Utilities, and more!
 - 🎨 **Themes**: Switch between Fluent, Classic, and Simple themes.
-- 🌍 **Localization**: Multi-language support.
 - 💾 **Persistent Data**: Your settings and transactions are saved automatically.
 - ⚡ **Fast & Modern UI**: Built with Avalonia and LiveCharts.
 
